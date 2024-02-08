@@ -3,7 +3,10 @@
 Define a function that obfuscates a log
 message.
 """
-from typing import List
+from typing import (
+        List,
+        Tuple
+        )
 import re
 import logging
 from datetime import datetime
@@ -73,3 +76,25 @@ def filter_datum(fields: List[str], redaction: str,
                          f"{field}={redaction}{separator}",
                          message)
     return (message)
+
+
+PII_FIELDS: Tuple[str] = ("name", "email", "phone", "ssn", "password")
+
+
+def get_logger() -> logging.Logger:
+    """
+    Create a new logger instance with a
+    custom formatter that generates logs
+    to the console.
+
+    Returns:
+        A new logger instance.
+    """
+    logger_obj = logging.getLogger("user_data")
+    logger_obj.setLevel(logging.INFO)
+    logger_obj.propagate = False
+    handler = logging.StreamHandler()
+    handler.setFormatter(RedactingFormatter(list(PII_FIELDS)))
+    logger_obj.addHandler(handler)
+
+    return (logger_obj)
