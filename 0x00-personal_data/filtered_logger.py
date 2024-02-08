@@ -42,7 +42,8 @@ class RedactingFormatter(logging.Formatter):
             The records of the log.
 
         Returns:
-            A string
+            A string representing the current
+            log message.
         """
         record.msg = filter_datum(self._fields, self.REDACTION,
                                   record.msg, self.SEPARATOR)
@@ -127,14 +128,15 @@ def main() -> None:
     """
     Log records fetched from the database.
     """
-    columns = ["name", "email", "phone", "ssn", "password", "ip", "last_login", "user_agent"]
+    columns = ["name", "email", "phone", "ssn",
+               "password", "ip", "last_login", "user_agent"]
     logger = get_logger()
 
     with get_db() as connection:
         with connection.cursor() as cursor:
             cursor.execute("SELECT * FROM users;")
             for row in cursor:
-                ___msg = "";
+                ___msg = ""
                 ___col_index = 0
                 for col in row:
                     ___msg += f"{columns[___col_index]}={col}; "
