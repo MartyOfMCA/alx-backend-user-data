@@ -10,6 +10,8 @@ from typing import (
 import re
 import logging
 from datetime import datetime
+import os
+import mysql.connector
 
 
 class RedactingFormatter(logging.Formatter):
@@ -98,3 +100,24 @@ def get_logger() -> logging.Logger:
     logger_obj.addHandler(handler)
 
     return (logger_obj)
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """
+    Establish a secure connection to a
+    database.
+
+    Returns:
+        A MySQL database connection instance.
+    """
+    username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    db = os.getenv("PERSONAL_DATA_DB_NAME")
+
+    return (mysql.connector.connect(
+            host=host,
+            database=db,
+            user=username,
+            password=password)
+            )
