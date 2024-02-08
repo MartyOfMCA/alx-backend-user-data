@@ -121,3 +121,27 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
             user=username,
             password=password)
             )
+
+
+def main() -> None:
+    """
+    Log records fetched from the database.
+    """
+    columns = ["name", "email", "phone", "ssn", "password", "ip", "last_login", "user_agent"]
+    logger = get_logger()
+
+    with get_db() as connection:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM users;")
+            for row in cursor:
+                ___msg = "";
+                ___col_index = 0
+                for col in row:
+                    ___msg += f"{columns[___col_index]}={col}; "
+                    ___col_index += 1
+                __msg = ___msg.strip()
+                logger.info(___msg)
+
+
+if (__name__ == "__main__"):
+    main()
