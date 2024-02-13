@@ -8,6 +8,7 @@ from typing import (
         List,
         TypeVar
         )
+from re import search
 
 
 class Auth:
@@ -43,7 +44,8 @@ class Auth:
             path += '/'
 
         for excluded_path in excluded_paths:
-            if (path == excluded_path):
+            #if (path == excluded_path):
+            if (search(excluded_path, path)):
                 is_excluded_path = False
                 break
 
