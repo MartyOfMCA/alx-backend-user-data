@@ -59,7 +59,10 @@ def before_request():
     """
     Handler to filter incoming requests.
     """
-    paths = ["/api/v1/status/", "/api/v1/unauthorized/", "/api/v1/forbidden/"]
+    paths = ["/api/v1/status/",
+            "/api/v1/unauthorized/",
+            "/api/v1/forbidden/",
+            "/api/v1/auth_session/login/"]
 
     path = request.path
 
