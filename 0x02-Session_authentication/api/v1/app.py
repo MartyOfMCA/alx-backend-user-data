@@ -70,11 +70,13 @@ def before_request():
         # Check for unauthorized requests
         if (not auth.authorization_header(request)):
             abort(401)
+
+        # Retrieve the current authenticated user
+        request.current_user = auth.current_user(request)
+
         # Check for forbidden requests
         if (not auth.current_user(request)):
             abort(403)
-
-        request.current_user = auth.current_user(request)
 
 
 if __name__ == "__main__":
