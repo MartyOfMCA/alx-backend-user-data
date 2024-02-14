@@ -9,6 +9,7 @@ from typing import (
         TypeVar
         )
 from re import search, sub
+from os import getenv
 
 
 class Auth:
@@ -82,3 +83,21 @@ class Auth:
             otherwise None.
         """
         return (None)
+
+    def session_cookie(self, request=None) -> str:
+        """
+        Retrieves the value from a cookie
+        found in the given request.
+
+        Parameters:
+            request : LocalProxy
+            A Flask request object to process.
+
+        Return:
+            A string containing the value
+            in the cookie.
+        """
+        if (not request):
+            return (None)
+
+        return (request.cookies.get(getenv("SESSION_NAME")))
