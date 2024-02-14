@@ -34,8 +34,6 @@ class Auth:
             given path requires authentication
             or not.
         """
-        is_excluded_path = True
-
         if (path is None or excluded_paths in ["", None]):
             return (True)
 
@@ -45,10 +43,9 @@ class Auth:
 
         for excluded_path in excluded_paths:
             if (search(sub(r"\*", ".*", excluded_path), path)):
-                is_excluded_path = False
-                break
+                return (False)
 
-        return (is_excluded_path)
+        return (True)
 
     def authorization_header(self, request=None) -> str:
         """
