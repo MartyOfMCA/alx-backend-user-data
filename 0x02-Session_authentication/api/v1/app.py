@@ -60,15 +60,16 @@ def before_request():
     Handler to filter incoming requests.
     """
     paths = ["/api/v1/status/",
-            "/api/v1/unauthorized/",
-            "/api/v1/forbidden/",
-            "/api/v1/auth_session/login/"]
+             "/api/v1/unauthorized/",
+             "/api/v1/forbidden/",
+             "/api/v1/auth_session/login/"]
 
     path = request.path
 
     if (auth and auth.require_auth(path, paths)):
         # Check for unauthorized requests
-        if (not auth.authorization_header(request)):
+        if (not auth.authorization_header(request) and
+                not auth.session_cookie(request)):
             abort(401)
 
         # Retrieve the current authenticated user
