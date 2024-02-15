@@ -6,7 +6,8 @@ authentication.
 """
 from flask import (
         request,
-        jsonify
+        jsonify,
+        abort
         )
 from os import getenv
 
@@ -54,3 +55,19 @@ def login():
     response.set_cookie(getenv("SESSION_NAME"), new_session_id)
 
     return (response)
+
+
+@app_views.route(
+        "/auth_session/logout",
+        strict_slashes=False,
+        methods=["DELETE"]
+        )
+def logout():
+    """
+    Handle user login requests.
+    """
+    from api.v1.app import auth
+    if (not auth.destroy_session(request)):
+        abort(404)
+
+    return (jsonify({}), 200)

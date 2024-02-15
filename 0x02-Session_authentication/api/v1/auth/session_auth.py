@@ -83,3 +83,36 @@ class SessionAuth(Auth):
         user_id = self.user_id_for_session_id(session_id)
 
         return (User.get(user_id))
+
+    def destroy_session(self, request=None) -> bool:
+        """
+        Invalide the current session for the
+        given request.
+
+        Paameters:
+            request : LocalProxy
+            A Flask request object to process.
+
+        Return:
+            A boolean indicating whether the
+            session is destroyed or nt.
+        """
+        if (not request):
+            return (False)
+
+        # Return false flag when the request
+        # has no cookie (or the value None).
+        session_id = self.session_cookie(request)
+        if (not session_id):
+            return (False)
+
+        # Return false flag when session for
+        # some reason is not for the current
+        # user.
+        if (not self.user_id_for_session_id(session_id)):
+            return (False)
+
+        # Delete user's session.
+        del self.user_id_by_session_id[session_id]
+
+        return (True)
