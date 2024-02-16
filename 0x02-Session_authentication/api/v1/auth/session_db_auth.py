@@ -80,11 +80,18 @@ class SessionDBAuth(SessionExpAuth):
         # Abort operation if given session is
         # not a valid session found in the
         # stored sessions.
-        if (session_id not in self.user_id_by_session_id):
+        # Fetch stored user session.
+        user_sessions = []
+
+        try:
+            user_sessions = UserSession.search({"session_id": session_id})
+        except KeyError:
+            return (None)
+        if (len(user_sessions) == 0):
             return (None)
 
         # Fetch the user session's instance
-        user_session = self.user_id_by_session_id[session_id]
+        user_session = user_sessions[0]
 
         # Fetch the expiry date of the user's
         # current session.
@@ -130,7 +137,8 @@ class SessionDBAuth(SessionExpAuth):
             return (False)
 
         # Delete user's session.
-        self.user_id_by_session_id[session_id].remove()
+        user_session = UserSession.search({"session_id": session_id})[0]
+        user_session.remove()
         del self.user_id_by_session_id[session_id]
 
         return (True)
