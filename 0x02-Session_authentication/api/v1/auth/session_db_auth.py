@@ -48,7 +48,6 @@ class SessionDBAuth(SessionExpAuth):
             "user_id": user_id,
             "session_id": session_id
             })
-        self.user_id_by_session_id[session_id] = user_session
         user_session.save()
 
         return (session_id)
@@ -139,6 +138,5 @@ class SessionDBAuth(SessionExpAuth):
         # Delete user's session.
         user_session = UserSession.search({"session_id": session_id})[0]
         user_session.remove()
-        del self.user_id_by_session_id[session_id]
 
         return (True)
