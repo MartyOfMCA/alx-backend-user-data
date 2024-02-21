@@ -15,7 +15,7 @@ class DB:
     """DB class
     """
 
-    def __init__(self) -> None:
+    def __init__(self):
         """
         Object constructor.
         """
