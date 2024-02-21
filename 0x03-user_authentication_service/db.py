@@ -1,4 +1,7 @@
-"""DB module
+#!/usr/bin/env python3
+"""
+Define a module that provides the DB
+instance for SQLite database maniulations.
 """
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -13,7 +16,8 @@ class DB:
     """
 
     def __init__(self) -> None:
-        """Initialize a new DB instance
+        """
+        Object constructor.
         """
         self._engine = create_engine("sqlite:///a.db", echo=True)
         Base.metadata.drop_all(self._engine)
@@ -22,8 +26,7 @@ class DB:
 
     @property
     def _session(self) -> Session:
-        """Memoized session object
-        """
+        """ Database session property. """
         if self.__session is None:
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
