@@ -39,10 +39,10 @@ class User(Base):
     session_id = Column(
             "session_id",
             String(250),
-            nullable=False
+            nullable=True
             )
     reset_token = Column(
             "reset_token",
             String(250),
-            nullable=False
+            nullable=True
             )
