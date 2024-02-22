@@ -85,3 +85,27 @@ class DB:
             # is raised by call to filter_by.
             return (self._session.query(User).
                     filter_by(**{key: value}).one())
+
+    def update_user(self, user_id: int, **criterion) -> None:
+        """
+        Update the records of the user with
+        the given id.
+
+        Parameters:
+            user_id : int
+            The id for the user whose records
+            has to be updated.
+
+            criterion : dict
+            A dictioary of fields containing
+            new values for the given
+            user.
+        """
+        user = self.find_user_by(**{"id": user_id})
+        # Update the found user's records
+        # if contro is still here.
+        for key, value in criterion.items():
+            if (hasattr(user, key)):
+                setattr(user, key, value)
+            else:
+                raise ValueError
