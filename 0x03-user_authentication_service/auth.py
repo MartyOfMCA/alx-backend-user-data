@@ -8,6 +8,8 @@ from bcrypt import (
         gensalt
         )
 
+from db import DB
+
 
 def _hash_password(password: str) -> bytes:
     """
@@ -23,3 +25,11 @@ def _hash_password(password: str) -> bytes:
         given.
     """
     return (hashpw(bytes(password, "utf-8"), gensalt(14)))
+
+
+class Auth:
+    """Auth class to interact with the authentication database.
+    """
+
+    def __init__(self):
+        self._db = DB()
