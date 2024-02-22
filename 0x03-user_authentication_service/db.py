@@ -60,3 +60,28 @@ class DB:
         self._session.commit()
 
         return (user)
+
+    def find_user_by(self, **criterion) -> User:
+        """
+        Fetch the first user whose record
+        matches the given fieds.
+
+        Parameters:
+            criterion : dict
+            A dictionary containing the
+            fields used for filtering
+            records along with their
+            values.
+
+        Return:
+            The user matching the filter
+            using the given fields.
+        """
+        for key, value in criterion.items():
+            # Fetch first user record using an
+            # item from the given citerion.
+            # NoResultFound is raised by call
+            # to one() and InvalidRequestError
+            # is raised by call to filter_by.
+            return (self._session.query(User).
+                    filter_by(**{key: value}).one())
