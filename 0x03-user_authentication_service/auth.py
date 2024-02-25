@@ -37,7 +37,7 @@ class Auth:
         """ Object constructor. """
         self._db = DB()
 
-    def register_user(self, email, password) -> User:
+    def register_user(self, email: str, password: str) -> User:
         """
         Add a new user wih the given
         credentials.
